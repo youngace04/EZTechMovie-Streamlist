@@ -1,4 +1,3 @@
-
 # EZTechMovie StreamList - Week 2
 
 screenshots/streamlist-home.png
