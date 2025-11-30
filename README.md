@@ -1,7 +1,5 @@
 # EZTechMovie StreamList - Week 2
 
-screenshots/streamlist-home.png
-
 ## Overview
 StreamList is a React-based web application that allows users to create and manage a personalized streaming list. This project demonstrates the use of React Router for navigation, state management with React hooks, and user-friendly UI enhancements with CSS and icons.
 
