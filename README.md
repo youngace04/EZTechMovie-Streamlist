@@ -61,22 +61,6 @@ Example: Adding to Cart
 - For accessories like "EZ Tech T-Shirt", add multiple times to increase quantity.
 - Cart updates persist across sessions.
 
-Project Structure
-
-src/
-├── components/
-│   ├── Navbar.js             Navigation with cart count
-│   ├── StreamList.js       Watchlist component
-│   ├── Movies.js             TMDB movie grid
-│   ├── Subscriptions.js  E-commerce listings from data.js
-│   ├── Cart.js                 Shopping cart management
-│   └── About.js              Placeholder
-├── hooks/
-│   └── useLocalStorage.js  Custom persistence hook
-├── data.js                            Subscription/accessory data
-├── services/
-│   └── tmdb.js                     TMDB API fetcher
-└── App.js                             Main router
 
 
 
