@@ -3,7 +3,10 @@ const API_BASE = 'https://api.themoviedb.org/3';
 const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 
 // Debug (optional): confirm the key is loaded — remove after verifying
-console.log('[TMDB] v3 API key present?', Boolean(API_KEY));
+// Only warn if API key missing; avoid logging key or request details in production
+if (!API_KEY) {
+  console.warn('[TMDB] Missing REACT_APP_TMDB_API_KEY; movie features will be disabled.');
+}
 
 export async function fetchPopularMovies(page = 1, language = 'en-US') {
   if (!API_KEY) {
@@ -12,15 +15,12 @@ export async function fetchPopularMovies(page = 1, language = 'en-US') {
 
   // IMPORTANT: real ampersand '&', not '&amp;'
   const url = `${API_BASE}/movie/popular?language=${encodeURIComponent(language)}&page=${page}&api_key=${API_KEY}`;
-  console.log('[TMDB] URL:', url);
-
   const res = await fetch(url, {
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
     },
   });
-
-  console.log('[TMDB] Response:', res.status, res.statusText);
+  // Check response status; detailed logging removed to reduce verbosity
 
   if (!res.ok) {
     const text = await safeText(res);

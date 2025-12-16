@@ -4,14 +4,13 @@ import useLocalStorage from '../hooks/useLocalStorage';
 import list from '../data';
 import './Subscriptions.css';
 
-console.log('Subscriptions component loaded'); // Debug: Check console
-console.log('List data:', list); // Should log array of 8 items
+// Removed debug logs
 
 function Subscriptions() {
   const [cart, setCart] = useLocalStorage('cart.items', []);
   const [warning, setWarning] = useState('');
 
-  console.log('Rendering Subscriptions with list length:', list.length); // Debug
+  // show warning state only
 
   const addToCart = (item) => {
     setWarning('');
@@ -50,7 +49,6 @@ function Subscriptions() {
       {warning && <div className="warning">{warning}</div>}
       <div className="grid">
         {list.map((item) => {
-          console.log('Rendering item:', item.service); // Debug per item
           return (
             <div key={item.id} className="item-card">
               <img src={item.img} alt={item.service} />
