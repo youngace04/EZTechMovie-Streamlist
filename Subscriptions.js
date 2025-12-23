@@ -1,71 +1,86 @@
-// src/components/Subscriptions.js
+
 import { useState } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 import list from '../data';
 import './Subscriptions.css';
 
-// Removed debug logs
-
 function Subscriptions() {
   const [cart, setCart] = useLocalStorage('cart.items', []);
   const [warning, setWarning] = useState('');
 
-  // show warning state only
-
   const addToCart = (item) => {
     setWarning('');
+
     const isSubscription = item.id <= 4;
     const existingItem = cart.find((c) => c.id === item.id);
 
+    // Enforce single subscription for id <= 4
     if (isSubscription && existingItem) {
       setWarning(`Warning: Only one ${item.service} subscription is allowed at a time.`);
       return;
     }
 
+    // Out of stock guard
     if (item.amount <= 0) {
       setWarning(`Warning: ${item.service} is out of stock.`);
       return;
     }
 
     if (existingItem) {
-      const newQuantity = existingItem.quantity + 1;
+      const newQuantity = (existingItem.quantity || 0) + 1;
+
+      // Cap by available amount
       if (newQuantity > item.amount) {
         setWarning(`Warning: Only ${item.amount} ${item.service} available.`);
         return;
       }
+
+      // Update quantity
       setCart((prev) =>
-        prev.map((c) =>
-          c.id === item.id ? { ...c, quantity: newQuantity } : c
-        )
+        prev.map((c) => (c.id === item.id ? { ...c, quantity: newQuantity } : c))
       );
     } else {
+      // Add new item with quantity 1
       setCart((prev) => [...prev, { ...item, quantity: 1 }]);
     }
   };
 
+  // Optional fallback image if an item is missing imageUrl
+  const getImageSrc = (item) =>
+    item.imageUrl || '/images/subscriptions-fallback.jpg';
+
   return (
     <div className="subscriptions-container">
-      <h1>Subscriptions & Accessories</h1>
+      {/* Hero header accent (uses global styles from App.css if present) */}
+      <div className="section-header section-header-accent" style={{ marginBottom: '1.25rem' }}>
+        <h2>Subscriptions & Accessories</h2>
+        <div className="section-subtitle">Choose your plan and add-ons</div>
+      </div>
+
       {warning && <div className="warning">{warning}</div>}
+
       <div className="grid">
-        {list.map((item) => {
-          return (
-            <div key={item.id} className="item-card">
-              <img src={item.img} alt={item.service} />
-              <h3>{item.service}</h3>
-              <p>{item.serviceInfo}</p>
-              <p className="price">${item.price.toFixed(2)}</p>
-              <p className="stock">In Stock: {item.amount}</p>
-              <button 
-                onClick={() => addToCart(item)} 
-                className="add-button"
-                disabled={item.amount <= 0}
-              >
-                {item.amount <= 0 ? 'Out of Stock' : 'Add to Cart'}
-              </button>
-            </div>
-          );
-        })}
+        {list.map((item) => (
+          <div key={item.id} className="item-card">
+            {/* Image area (optional) */}
+            <img src={getImageSrc(item)} alt={item.service} />
+
+            {/* Content */}
+            <h3>{item.service}</h3>
+            {item.serviceInfo && <p>{item.serviceInfo}</p>}
+
+            <div className="price">${Number(item.price).toFixed(2)}</div>
+            <div className="stock">In Stock: {item.amount}</div>
+
+            <button
+              className="add-button"
+              onClick={() => addToCart(item)}
+              disabled={item.amount <= 0}
+            >
+              {item.amount <= 0 ? 'Out of Stock' : 'Add to Cart'}
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   );

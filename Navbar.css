@@ -1,33 +1,54 @@
-
-.navbar {
+.nav {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background-color: #b30000;
-  padding: 15px 30px;
+  justify-content: space-between;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
 }
 
-.navbar h2 {
-  color: #fff;
-  font-size: 1.8rem;
+.brand {
+  font-weight: 800;
+  color: var(--brand-navy);
+  letter-spacing: 0.3px;
 }
 
-.navbar ul {
-  list-style: none;
+.nav-links {
   display: flex;
-  gap: 20px;
-  margin: 0;
-  padding: 0;
+  gap: 16px;
 }
 
-.navbar ul li a {
-  color: #fff;
+.nav-links a {
+  color: var(--text);
   text-decoration: none;
-  font-size: 1.1rem;
-  font-weight: bold;
-  transition: color 0.3s ease;
+  padding: 6px 10px;
+  border-radius: 6px;
 }
 
-.navbar ul li a:hover {
-  color: #ffcccc;
+.nav-links a.active {
+  background: #f3f4f6;
+  color: var(--brand-navy);
+  font-weight: 700;
+}
+
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-name {
+  color: var(--muted);
+}
+
+.btn-secondary {
+  background: #f3f4f6;
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.btn-secondary:hover {
+  filter: brightness(0.98);
 }
